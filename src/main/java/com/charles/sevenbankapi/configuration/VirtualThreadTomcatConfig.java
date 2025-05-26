@@ -1,8 +1,7 @@
-package com.charles.sevenbankapi;
+package com.charles.sevenbankapi.configuration;
 
 import java.util.concurrent.Executors;
 
-import org.apache.coyote.ProtocolHandler;
 import org.apache.coyote.AbstractProtocol;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -20,8 +19,7 @@ public class VirtualThreadTomcatConfig
                 // executor de virtual threads
                 protocol.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
 
-                // aumentar o número máximo de conexões simultâneas e backlog
-                protocol.setMaxConnections(1_000);   // aceita até 1000 conexões ativas
+                protocol.setMaxConnections(1_000);
                 connector.setProperty("acceptCount", "1000");  // backlog de 1000
             }
         });
