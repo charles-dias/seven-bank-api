@@ -1,11 +1,12 @@
 package com.charles.sevenbankapi.application.service;
 
+import com.charles.sevenbankapi.application.assembler.AccountAssembler;
+import com.charles.sevenbankapi.application.dto.AccountResponse;
 import com.charles.sevenbankapi.application.port.in.GetBalanceUseCase;
 import com.charles.sevenbankapi.application.port.out.AccountRepository;
+import com.charles.sevenbankapi.common.exception.ResourceNotFoundException;
 import com.charles.sevenbankapi.domain.model.Account;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 public class GetBalanceService implements GetBalanceUseCase {
@@ -16,7 +17,9 @@ public class GetBalanceService implements GetBalanceUseCase {
     }
 
     @Override
-    public Account execute(Long accountNumber) throws Exception {
-        return accountRepo.findByAccountNumber(accountNumber).orElseThrow(() -> new Exception(accountNumber.toString()));
+    public AccountResponse execute(Long accountNumber) {
+        Account account = accountRepo.findByAccountNumber(accountNumber).orElseThrow(() -> new ResourceNotFoundException(accountNumber));
+
+        return AccountAssembler.toResponseModel(account);
     }
 }

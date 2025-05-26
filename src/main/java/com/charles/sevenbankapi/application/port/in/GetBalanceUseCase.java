@@ -1,7 +1,9 @@
 package com.charles.sevenbankapi.application.port.in;
 
-import com.charles.sevenbankapi.domain.model.Account;
+import com.charles.sevenbankapi.adapter.in.rest.dto.AccountResponseDto;
+import com.charles.sevenbankapi.application.dto.AccountResponse;
+import com.charles.sevenbankapi.common.exception.ResourceNotFoundException;
 
 public interface GetBalanceUseCase {
-    Account execute(Long accountNumber) throws Exception;
+    AccountResponse execute(Long accountNumber);
 }
