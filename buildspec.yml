@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_REPO: 403492127812.dkr.ecr.us-east-2.amazonaws.com/seven-bank-api
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --region $AWS_DEFAULT_REGION ecr get-login-password | docker login --username AWS --password-stdin $IMAGE_REPO
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo Build started on `date`
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_REPO:$IMAGE_TAG
+      - printf '[{"name":"seven-bank-api","imageUri":"%s"}]' $IMAGE_REPO:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
