@@ -15,4 +15,11 @@ public class GlobalErrorHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDTO("NOT_FOUND", ex.getMessage()));
     }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<ErrorDTO> handleException(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorDTO("INTERNAL_SERVER_ERROR", ex.getMessage()));
+    }
 }
