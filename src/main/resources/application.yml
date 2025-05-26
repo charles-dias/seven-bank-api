@@ -1,13 +1,9 @@
-# application.yml
-
-# 1) Perfil ativo por padrão (pode ser sobrescrito por variável de ambiente ou VM option)
 spring:
   profiles:
     active: ${ACTIVE_DB_PROFILE}
 
 ---
 
-# 2) Configurações para o profile "postgres"
 spring:
   config:
     activate:
@@ -18,12 +14,11 @@ spring:
     password: ${DB_PASS:pass@123}
   jpa:
     hibernate:
-      ddl-auto: validate    # em prod você não usa create-drop
+      ddl-auto: validate
     show-sql: false
 
 ---
 
-# 3) Configurações para o profile "h2" (in-memory)
 spring:
   config:
     activate:
